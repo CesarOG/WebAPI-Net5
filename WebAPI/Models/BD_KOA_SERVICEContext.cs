@@ -19,12 +19,13 @@ namespace WebAPI.Models
 
         public virtual DbSet<Producto> Productos { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Rol> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("data source = tcp:svsqlserver2021.database.windows.net; initial catalog = BD_KOA_SERVICE; user id = koaservice; password = S4nk4r34$$$");
+                optionsBuilder.UseSqlServer("data source = localhost; initial catalog = BD_Net5WebAPIN; user id = sa; password = 123456");
             }
         }
 
@@ -34,7 +35,7 @@ namespace WebAPI.Models
 
             modelBuilder.Entity<Producto>(entity =>
             {
-                entity.ToTable("Producto");
+                entity.ToTable("Productos");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(100)
@@ -49,7 +50,7 @@ namespace WebAPI.Models
 
             modelBuilder.Entity<Usuario>(entity =>
             {
-                entity.ToTable("Usuario");
+                entity.ToTable("Usuarios");
 
                 entity.Property(e => e.Clave)
                     .HasMaxLength(100)
@@ -62,6 +63,16 @@ namespace WebAPI.Models
                 entity.Property(e => e.Token)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+            });
+
+
+            modelBuilder.Entity<Rol>(entity =>
+            {
+                entity.ToTable("Rol");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);                
             });
 
             OnModelCreatingPartial(modelBuilder);
